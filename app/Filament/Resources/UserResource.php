@@ -23,7 +23,10 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('name')->required()->maxLength(255),
+                TextInput::make('email')->required()->maxLength(255),
+                Select::make('role_id')->label('Role')->relationship('role', 'name')->required(),
+                TextInput::make('password')->password()->required(fn (string $context) => $context === 'create')->dehydrated(fn ($state) => filled($state))->maxLength(255), //!
             ]);
     }
 
@@ -31,6 +34,7 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                 TextColumn::make('serial_no')->label('No.')->rowIndex(),
                  TextColumn::make('name')->searchable()->sortable(),
                  TextColumn::make('email')->searchable()->sortable(),
                  TextColumn::make('role.name')->searchable()->sortable(),
