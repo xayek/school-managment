@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+
 class SubjectResource extends Resource
 {
     protected static ?string $model = Subject::class;
@@ -23,7 +24,8 @@ class SubjectResource extends Resource
     {
         return $form
             ->schema([
-                //
+                 TextInput::make('name')->required()->maxLength(255),
+
             ]);
     }
 
@@ -31,7 +33,10 @@ class SubjectResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('serial_no')->label('No.')->rowIndex(),
+                TextColumn::make('name')->searchable()->sortable(),
+                TextColumn::make('updated_at')->dateTime()->sortable(),
+                TextColumn::make('created_at')->dateTime()->sortable(),
             ])
             ->filters([
                 //
